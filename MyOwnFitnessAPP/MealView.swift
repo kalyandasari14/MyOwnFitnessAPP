@@ -11,6 +11,7 @@ struct MealView: View {
     var body: some View {
         Text("Meals")
         Text("RedView")
+        Text("plainview")
     }
 }
 
