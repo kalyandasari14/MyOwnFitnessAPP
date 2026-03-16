@@ -12,6 +12,7 @@ struct MealView: View {
         Text("Meals")
         Text("RedView")
         Text("plainview")
+        Text("logview")
     }
 }
 
