@@ -25,12 +25,14 @@ struct WorkOutViewData: View {
                     
                 }
                 Section("Lifting Weight"){
-                    TextField("How much weight are you lifting??", value: $weight, format: .number)
+                    TextField("How much weight are you lifting??", value: $weight, format: .number).keyboardType(.numberPad)
                 }
                 
 
                 Section("Sets Count"){
-                    TextField("How many reps are you thinking today??", value: $reps, format: .number)}
+                    TextField("How many reps are you thinking today??", value: $reps, format: .number)
+                        .keyboardType(.numberPad)
+                }
                 
                 Section("Date And Time"){
                     DatePicker("Date", selection: $date,displayedComponents: .date)

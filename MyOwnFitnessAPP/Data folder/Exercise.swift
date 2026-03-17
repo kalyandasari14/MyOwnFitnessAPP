@@ -62,10 +62,12 @@ class Meal{
 @Model
 class Bodyweight{
     var bodyweight: Double
+    var desiredWeight: Double
     var date: Date?
     
-    init(bodyweight: Double, date: Date? = nil) {
+    init(bodyweight: Double, desiredWeight: Double, date: Date? = nil) {
         self.bodyweight = bodyweight
+        self.desiredWeight = desiredWeight
         self.date = date
     }
 }
