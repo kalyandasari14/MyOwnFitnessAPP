@@ -24,7 +24,7 @@ struct FitnessProgressView: View {
                         Text("\(body.bodyweight)")
                         Text("\(body.desiredWeight)")
                         
-                    }
+                    }.onDelete(perform: deleteWeight)
                 }
             }
         }.navigationTitle("ProgressView")
@@ -41,9 +41,14 @@ struct FitnessProgressView: View {
                 FitnessView()
             }
     }
+    func deleteWeight(at offsets: IndexSet){
+        for i in offsets{
+            context.delete(bodyweight[i])
+        }
+    }
 }
 
 #Preview {
     NavigationStack{
-        FitnessProgressView()}
+        FitnessProgressView()}.modelContainer(for: Bodyweight.self, inMemory: true)
 }
