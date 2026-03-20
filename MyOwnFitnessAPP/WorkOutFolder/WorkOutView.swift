@@ -19,12 +19,19 @@ struct WorkOutView: View {
                 }else{
                     List{
                         ForEach(exercises){exercise in
-                            Text(exercise.workoutName)
-                                .font(.title).foregroundStyle(.primary)
-                            Text("\(exercise.sets.count)")
-                                .font(.caption).foregroundStyle(.secondary)
+                            NavigationLink(value : exercise){
+                                VStack(alignment: .leading){
+                                    Text(exercise.workoutName)
+                                        .font(.title).foregroundStyle(.primary)
+                                    Text("\(exercise.sets.count)")
+                                        .font(.caption).foregroundStyle(.secondary)
+                                }
+                            }
                             
                         }.onDelete(perform: deleteExercise)
+                          
+                    }  .navigationDestination(for: ExerciseData.self){exercise in
+                        ExcerciseDetailView(exercise: exercise)
                     }
                 }
         }.navigationTitle("WorkOut App")

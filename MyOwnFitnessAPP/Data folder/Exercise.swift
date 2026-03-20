@@ -11,12 +11,10 @@ import SwiftData
 @Model
 
 
-class ExerciseData{
+class ExerciseData: Hashable{
     var workoutName: String
-    var sets : [Sets]
-    
-    
    
+    var sets : [Sets]
     
     init(workoutName: String, sets: [Sets]) {
         self.workoutName = workoutName
@@ -26,15 +24,16 @@ class ExerciseData{
 
 @Model
 class Sets{
-    var wieght: Int
+    var weight: Int
     var reps : Int
     var date : Date?
+    var setNumber: Int
     
-    
-    init( workOutwieght: Int, reps: Int, date: Date? = nil) {
-        self.wieght = workOutwieght
+    init(weight: Int, reps: Int, date: Date? = nil, setNumber: Int) {
+        self.weight = weight
         self.reps = reps
         self.date = date
+        self.setNumber = setNumber
     }
 }
 
