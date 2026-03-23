@@ -21,7 +21,7 @@ struct ExcerciseDetailView: View {
                            .foregroundStyle(.secondary)
                        Spacer()
                        
-                       Text("\(workout.weight)").bold()
+                       Text("\(workout.weight) kg ").bold()
                    }
                    
                    HStack{

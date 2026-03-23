@@ -7,10 +7,22 @@
 
 import SwiftUI
 import SwiftData
+import FirebaseCore
+import GoogleSignIn
 
 
 @main
 struct MyOwnFitnessAPPApp: App {
+    
+    init(){
+        FirebaseApp.configure()
+        
+        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
+              let config = GIDConfiguration(clientID: clientID)
+              GIDSignIn.sharedInstance.configuration = config
+    }
+    
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
