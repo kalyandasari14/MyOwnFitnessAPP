@@ -23,6 +23,15 @@ struct LoginView: View {
         endPoint: .bottomTrailing
     )
     
+    // Check if running on simulator
+    private var isSimulator: Bool {
+        #if targetEnvironment(simulator)
+        return true
+        #else
+        return false
+        #endif
+    }
+    
     var body: some View {
         ZStack {
             // Background
@@ -58,6 +67,24 @@ struct LoginView: View {
                             .padding(.horizontal)
                     }
 
+                    // Simulator warning
+                    if isSimulator {
+                        HStack(spacing: 8) {
+                            Image(systemName: "exclamationmark.triangle.fill")
+                                .foregroundStyle(.orange)
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("Running on Simulator")
+                                    .font(.caption)
+                                    .fontWeight(.semibold)
+                                Text("Sign in with Apple may not work. Try Google Sign In or test on a real device.")
+                                    .font(.caption2)
+                            }
+                        }
+                        .padding(12)
+                        .background(Color.orange.opacity(0.1))
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                    }
+                    
                     // Error message
                     if let error = errorMessage {
                         Text(error)
@@ -170,32 +197,52 @@ struct LoginView: View {
         switch result {
         case .failure(let error):
             let nsError = error as NSError
+            print("❌ Apple Sign In Error: \(error.localizedDescription)")
+            print("Error Domain: \(nsError.domain), Code: \(nsError.code)")
+            
             // Error code 1000 = user canceled or auth failed
             // Error code 1001 = unknown error
             if nsError.code == 1000 {
-                errorMessage = "Sign in was canceled or failed. Please try again."
+                if isSimulator {
+                    errorMessage = "Sign in with Apple doesn't work reliably on simulator. Please use Google Sign In or test on a real device."
+                } else {
+                    errorMessage = "Sign in was canceled. Please try again."
+                }
             } else if nsError.code == 1001 {
-                errorMessage = "Unknown error. Try using Google Sign In instead."
+                if isSimulator {
+                    errorMessage = "Simulator authentication error. Try Google Sign In instead, or test on a real device."
+                } else {
+                    errorMessage = "Unknown error occurred. Please try again or use Google Sign In."
+                }
             } else {
-                errorMessage = error.localizedDescription
+                errorMessage = "Error: \(error.localizedDescription)"
             }
             
         case .success(let authorization):
+            print("✅ Apple authorization successful")
+            
             guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential else {
+                print("❌ Failed to get AppleID credential")
                 errorMessage = "Invalid AppleID credential"
                 return
             }
+            
+            print("Apple User ID: \(appleIDCredential.user)")
 
             guard let nonce = currentNonce else {
+                print("❌ Missing nonce")
                 errorMessage = "Missing login request nonce"
                 return
             }
 
             guard let appleIDToken = appleIDCredential.identityToken,
                   let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
+                print("❌ Failed to get identity token")
                 errorMessage = "Unable to fetch identity token"
                 return
             }
+            
+            print("✅ Got identity token, signing in to Firebase...")
 
             let credential = OAuthProvider.appleCredential(
                 withIDToken: idTokenString,
@@ -203,9 +250,13 @@ struct LoginView: View {
                 fullName: appleIDCredential.fullName
             )
 
-            Auth.auth().signIn(with: credential) { _, error in
+            Auth.auth().signIn(with: credential) { authResult, error in
                 if let error {
+                    print("❌ Firebase sign in error: \(error.localizedDescription)")
                     errorMessage = error.localizedDescription
+                } else {
+                    print("✅ Successfully signed in to Firebase")
+                    print("User: \(authResult?.user.uid ?? "unknown")")
                 }
             }
         }

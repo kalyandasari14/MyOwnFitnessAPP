@@ -76,6 +76,12 @@ struct ProfileView: View {
                 Stepper("workout days: \(workoutCount)", value: $workoutCount,in: 1...7, step: 1)
                 
             }
+            Section("Signout"){
+                Button("SignOut", role: .destructive){
+                    authViewModel.signOut()
+                }
+            }
+            
             
         }.navigationTitle("Profile")
     }
@@ -83,5 +89,5 @@ struct ProfileView: View {
 
 #Preview {
     ProfileView()
-        .environment(AuthViewModel()).modelContainer(for: Bodyweight.self, inMemory: true)
+        .environment(AuthViewModel()).modelContainer(for: [Bodyweight.self,ExerciseData.self], inMemory: true)
 }
