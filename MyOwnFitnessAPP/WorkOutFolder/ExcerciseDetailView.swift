@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ExcerciseDetailView: View {
-    
-    let exercise: ExerciseData
+    @State private var showingSheet = false
+    var exercise: ExerciseData
     
     var body: some View {
         Form{
@@ -44,6 +44,17 @@ struct ExcerciseDetailView: View {
             
         }.navigationTitle(exercise.workoutName)
             .navigationBarTitleDisplayMode(.automatic)
+            .toolbar{
+                ToolbarItem(placement: .topBarTrailing){
+                    Button("Edit"){
+                        showingSheet = true
+                    }
+                }
+            }
+            .sheet(isPresented: $showingSheet){
+                NavigationStack{
+                    EditExerciseVIew(exercise: exercise)}
+            }
     }
 }
 
