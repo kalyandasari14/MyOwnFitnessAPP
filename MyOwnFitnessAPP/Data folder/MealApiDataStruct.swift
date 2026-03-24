@@ -14,50 +14,28 @@ struct FoodResponse: Decodable, Hashable {
 }
 
 
-struct FoodProducts: Decodable, Hashable {
-    var description: String?
-    var foodNutrients: [FoodNutrient]?
+struct FoodProducts: Decodable, Hashable{
+    var description: String
+    var foodNutrients: [FoodNutrients]
     
-    // Computed property to match existing code
-    var product_name: String? {
-        return description
-    }
-    
-    var nutriments: Nutriments? {
-        guard let nutrients = foodNutrients else { return nil }
-        
-        var energy: Double?
-        var protein: Double?
-        var carbs: Double?
-        var fat: Double?
-        
-        for nutrient in nutrients {
-            switch nutrient.nutrientNumber {
-            case "208": // Energy (kcal)
-                energy = nutrient.value
-            case "203": // Protein
-                protein = nutrient.value
-            case "205": // Carbohydrates
-                carbs = nutrient.value
-            case "204": // Fat
-                fat = nutrient.value
-            default:
-                break
-            }
-        }
-        
-        return Nutriments(energyKcal: energy, proteins: protein, carbohydrates: carbs, fat: fat)
-    }
-    
-    struct FoodNutrient: Decodable, Hashable {
-        var nutrientNumber: String?
+    struct FoodNutrients: Decodable, Hashable{
+        var nutrientName: String
         var value: Double?
     }
     
-    struct Nutriments: Hashable {
-        var energyKcal: Double?
-        var proteins: Double?
-        var carbohydrates: Double?
-        var fat: Double?
+    var protein: Double{
+        foodNutrients.first(where: { $0.nutrientName == "Protein" })?.value ?? 0
+    }
+    var calories: Double{
+        foodNutrients.first(where: {$0.nutrientName == "Energy"})?.value ?? 0
+    }
+    
+    var fats: Double{
+        foodNutrients.first(where: {$0.nutrientName == "Total lipid (fat)"})?.value ?? 0
+    }
+    
+    var carbs: Double{
+        foodNutrients.first(where: {$0.nutrientName == "Carbohydrate, by difference"})?.value ?? 0
     }
 }
+

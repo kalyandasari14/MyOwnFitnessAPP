@@ -36,10 +36,14 @@ struct MealDataView: View {
                 Section("Search Food") {
                     HStack {
                         TextField("e.g. chicken breast", text: $searchText)
+                            .textInputAutocapitalization(.never)
+                            .autocorrectionDisabled()
                         Button("Search") {
-                            Task { await viewModel.fetchData(foodName: searchText) }
+                            Task { 
+                                await viewModel.fetchData(foodName: searchText)
+                            }
                         }
-                        .disabled(searchText.isEmpty)
+                        .disabled(searchText.isEmpty || viewModel.isLoading)
                     }
                 }
 
@@ -71,7 +75,7 @@ struct MealDataView: View {
                                 selectedFood = meal
                             } label: {
                                 HStack {
-                                    Text(meal.product_name ?? "Unknown")
+                                    Text(meal.description )
                                         .foregroundStyle(.primary)
                                     Spacer()
                                     if selectedFood == meal {
@@ -91,14 +95,14 @@ struct MealDataView: View {
                             Text("Calories")
                                 .foregroundStyle(.secondary)
                             Spacer()
-                            Text("\(Int(food.nutriments.energyKcal ?? 0)) kcal")
+                            Text("\(Int(food.calories)) kcal")
                                 .bold()
                         }
                         HStack {
                             Text("Protein")
                                 .foregroundStyle(.secondary)
                             Spacer()
-                            Text("\(Int(food.nutriments.proteins ?? 0))g")
+                            Text("\(Int(food.protein))g")
                                 .bold()
                                 .foregroundStyle(.green)
                         }
@@ -106,14 +110,14 @@ struct MealDataView: View {
                             Text("Carbs")
                                 .foregroundStyle(.secondary)
                             Spacer()
-                            Text("\(Int(food.nutriments.carbohydrates ?? 0))g")
+                            Text("\(Int(food.carbs))g")
                                 .bold()
                         }
                         HStack {
                             Text("Fat")
                                 .foregroundStyle(.secondary)
                             Spacer()
-                            Text("\(Int(food.nutriments.fat ?? 0))g")
+                            Text("\(Int(food.fats))g")
                                 .bold()
                         }
                     }
@@ -143,12 +147,7 @@ struct MealDataView: View {
 
     func saveMeal() {
         guard let food = selectedFood else { return }
-        let meal = Meal(
-            name: food.product_name ?? "Unknown",
-            calories: Int(food.nutriments.energyKcal ?? 0),
-            protein: Int(food.nutriments.proteins ?? 0),
-            carbs: Int(food.nutriments.carbohydrates ?? 0),
-            fat: Int(food.nutriments.fat ?? 0)
+        let meal = Meal(name: food.description, calories: Int(food.calories), protein: Int(food.protein), carbs: Int(food.carbs), fat: Int(food.fats)
         )
         context.insert(meal)
         dismiss()
