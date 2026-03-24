@@ -12,7 +12,8 @@ struct ContentView: View {
 
     var body: some View {
         if authViewModel.isLoggedIn {
-            MainTabView()  // your existing TabView
+            MainTabView()
+                .environment(authViewModel)
         } else {
             LoginView()
         }

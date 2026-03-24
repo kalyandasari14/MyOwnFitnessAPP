@@ -70,3 +70,6 @@ class Bodyweight{
         self.date = date
     }
 }
+
+
+

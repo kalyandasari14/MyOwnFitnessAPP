@@ -6,30 +6,47 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct MainTabView: View {
+    @Environment(AuthViewModel.self) private var authViewModel
+    
     var body: some View {
-        TabView{
-            NavigationStack{
+        TabView {
+            NavigationStack {
                 WorkOutView()
-            }.tabItem{
+            }
+            .tabItem {
                 Label("Workout", systemImage: "dumbbell.fill")
             }
             
-            NavigationStack{
+            NavigationStack {
                 MealView()
-            }.tabItem{
-                Label("meals", systemImage: "fork.knife")
+            }
+            .tabItem {
+                Label("Meals", systemImage: "fork.knife")
             }
             
-            NavigationStack{
+            NavigationStack {
                 FitnessProgressView()
-            }.tabItem {
+            }
+            .tabItem {
                 Label("Progress", systemImage: "chart.line.uptrend.xyaxis")
+            }
+            
+            NavigationStack {
+                ProfileView()
+            }
+            .tabItem {
+                Label("Profile", systemImage: "person.circle.fill")
             }
         }
     }
 }
+
+
+
 #Preview {
     MainTabView()
+        .environment(AuthViewModel())
 }
