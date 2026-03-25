@@ -1,160 +1,51 @@
-# MyOwnFitnessAPP 💪
+MyOwnFitnessAPP
+A fitness app I built to track my workouts, meals, and weight goals — because I got tired of watching ads on Cronometer and didn't want to pay for a subscription. So I figured I'd build my own.
+What It Does
 
-A comprehensive fitness tracking iOS app built with SwiftUI and SwiftData that helps you monitor your workouts, meals, and progress towards your fitness goals.
+Workout Tracking — Log exercises with multiple sets, track weight and reps, view exercise history
+Meal Tracking — Search foods using the USDA FoodData Central API, log meals with full nutrition info (calories, protein, carbs, fat), see daily calorie totals
+Body Weight Tracking — Log your weight over time, set a goal weight, toggle between kg and lb
+Profile — Google Sign In with Firebase Auth, view your stats and goals, sign out
 
-## Features
+Tech Stack
 
-### 🏋️ Workout Tracking
-- Log exercises with multiple sets
-- Track weight and reps for each set
-- View detailed exercise history
-- Delete and manage your workout data
-- Clean, intuitive interface for quick logging
+SwiftUI — all UI built in SwiftUI with no UIKit
+SwiftData — for persisting workouts, meals, and body weight entries
+Firebase Auth — Google Sign In using OAuth 2.0
+USDA FoodData Central API — for searching food nutrition data
+MVVM Architecture — ViewModels with @Observable, feature-based folder structure
 
-### 🍽️ Meal Tracking
-- Search and log meals using nutrition data
-- Track calories, protein, carbs, and fat
-- View total daily calorie intake
-- Color-coded calorie goals (under/over 2000 calories)
-- Edit meal information
-- Search powered by nutrition API integration
+What I Learned
+This was my biggest project as a self-taught iOS developer, and I picked up a lot:
 
-### 📊 Progress Monitoring
-- Track body weight over time
-- Set and monitor desired weight goals
-- Visual progress tracking
-- Date-based progress logging
+SwiftData over Core Data for data persistence — learned how to set up models, relationships (ExerciseData → Sets), and @Query for fetching data
+MVVM pattern — structuring code with clear separation between views, view models, and models. Organized everything into feature-based folders
+API integration — started with Open Food Facts API, switched to USDA when it stopped working. Learned to decode nested JSON, use computed properties to extract specific nutrients from arrays, and handle loading/error states
+Firebase Auth — the hardest part of this project. Had zero Firebase experience and spent a full day debugging an issue with the REVERSED_CLIENT_ID and Bundle ID in the GoogleService-Info.plist. Solved it by digging through Stack Overflow and actually reading what Xcode was telling me
+Apple Human Interface Guidelines — used them to inform layout decisions and keep the app feeling native
 
-### 👤 Profile & Authentication
-- Firebase Authentication integration
-- User profile management
-- Secure sign-in/sign-out
+Screenshots
+Coming soon
+Requirements
 
-## Technical Stack
+iOS 17.0+
+Xcode 15.0+
+Firebase account for authentication
+USDA API key (free at https://fdc.nal.usda.gov/api-key-signup.html)
 
-- **Language**: Swift
-- **UI Framework**: SwiftUI
-- **Data Persistence**: SwiftData
-- **Authentication**: Firebase Auth
-- **API Integration**: Nutrition data API for meal searching
-- **Architecture**: MVVM pattern with observable view models
+Setup
 
-## Data Models
+Clone the repo
+Add your GoogleService-Info.plist for Firebase
+Add your USDA API key in MealDataviewModel.swift
+Build and run
 
-### ExerciseData
-```swift
-- workoutName: String
-- sets: [Sets]
-```
+What's Next
 
-### Sets
-```swift
-- weight: Int
-- reps: Int
-- date: Date?
-- setNumber: Int
-```
+Charts for weight progress visualization
+Meal type sections (Breakfast / Lunch / Dinner)
+Workout templates and routines
+Custom macro goals
 
-### Meal
-```swift
-- name: String
-- calories: Int
-- protein: Int
-- carbs: Int
-- fat: Int
-- date: Date
-```
 
-### Bodyweight
-```swift
-- bodyweight: Double
-- desiredWeight: Double
-- date: Date?
-```
 
-## App Structure
-
-The app uses a tab-based navigation with four main sections:
-
-1. **Workout** - Exercise logging and tracking
-2. **Meals** - Nutrition and meal management
-3. **Progress** - Body weight and fitness progress
-4. **Profile** - User account management
-
-## Key Views
-
-- `MainTabView` - Main tab navigation container
-- `WorkOutView` - Exercise list and management
-- `ExerciseDetailView` - Detailed view of individual exercises
-- `MealView` - Meal list with daily calorie totals
-- `MealDataView` - Add new meals with nutrition search
-- `EditMealView` - Edit existing meal information
-- `FitnessProgressView` - Track body weight progress
-- `ProfileView` - User profile and settings
-- `LoginView` - Authentication interface
-
-## Requirements
-
-- iOS 17.0+
-- Xcode 15.0+
-- Swift 6.0+
-- Firebase account (for authentication)
-- Active internet connection (for meal search functionality)
-
-## Setup
-
-1. Clone the repository
-2. Open `MyOwnFitnessAPP.xcodeproj` in Xcode
-3. Configure Firebase:
-   - Add your `GoogleService-Info.plist` to the project
-   - Ensure Firebase Authentication is enabled
-4. Build and run on your device or simulator
-
-## Usage
-
-### Adding a Workout
-1. Navigate to the Workout tab
-2. Tap the "+" button
-3. Enter exercise name and set details
-4. Save your workout
-
-### Logging a Meal
-1. Navigate to the Meals tab
-2. Tap the "+" button
-3. Search for a food item
-4. Select meal type (Breakfast/Lunch/Dinner)
-5. Review nutrition information
-6. Save the meal
-
-### Tracking Progress
-1. Navigate to the Progress tab
-2. Log your current body weight
-3. Set your desired weight goal
-4. Monitor changes over time
-
-## Future Enhancements
-
-- [ ] Charts and graphs for progress visualization
-- [ ] Workout routines and templates
-- [ ] Custom meal creation
-- [ ] Macro goals customization
-- [ ] Social features and sharing
-- [ ] Exercise form videos
-- [ ] Workout timer
-- [ ] Weekly/monthly statistics
-
-## Contributing
-
-This is a personal fitness tracking project. Feel free to fork and customize for your own use.
-
-## License
-
-All rights reserved. Created by kalyan.
-
-## Contact
-
-For questions or feedback, please open an issue in the repository.
-
----
-
-**Note**: This app is for personal fitness tracking purposes. Always consult with healthcare professionals before starting any new fitness or nutrition program.
