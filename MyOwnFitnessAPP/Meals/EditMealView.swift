@@ -53,5 +53,5 @@ struct EditMealView: View {
 
 
 #Preview {
-    EditMealView(meal: Meal(name: "Mikey", calories: 87, protein: 78, carbs: 87, fat: 87))
+    EditMealView(meal: Meal(mealType:"lunch",name: "Mikey", calories: 87, protein: 78, carbs: 87, fat: 87, date: Date()))
 }

@@ -147,7 +147,7 @@ struct MealDataView: View {
 
     func saveMeal() {
         guard let food = selectedFood else { return }
-        let meal = Meal(name: food.description, calories: Int(food.calories), protein: Int(food.protein), carbs: Int(food.carbs), fat: Int(food.fats)
+        let meal = Meal(mealType: selectedMeal,name: food.description, calories: Int(food.calories), protein: Int(food.protein), carbs: Int(food.carbs), fat: Int(food.fats), date: date
         )
         context.insert(meal)
         dismiss()
@@ -160,3 +160,4 @@ struct MealDataView: View {
             .modelContainer(for: Meal.self, inMemory: true)
     }
 }
+

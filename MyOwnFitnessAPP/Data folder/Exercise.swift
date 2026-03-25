@@ -9,11 +9,10 @@ import Foundation
 import SwiftData
 
 @Model
-
-
 class ExerciseData: Hashable{
     var workoutName: String
-   
+    
+    @Relationship(deleteRule: .cascade)
     var sets : [Sets]
     
     init(workoutName: String, sets: [Sets]) {
@@ -41,14 +40,15 @@ class Sets{
 
 @Model
 class Meal{
+    var mealType: String
     var name: String
     var calories: Int
     var protein: Int
     var carbs: Int
     var fat: Int
     var date: Date
-    
-    init(name: String, calories: Int, protein: Int, carbs: Int, fat: Int, date: Date = Date()) {
+    init(mealType: String, name: String, calories: Int, protein: Int, carbs: Int, fat: Int, date: Date) {
+        self.mealType = mealType
         self.name = name
         self.calories = calories
         self.protein = protein

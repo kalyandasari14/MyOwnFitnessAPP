@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		306661272F73745F0065F2F5 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 306661262F73745F0065F2F5 /* README.md */; };
 		30CF65AF2F70CD6A00766A6F /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 30CF65AE2F70CD6A00766A6F /* FirebaseAuth */; };
 		30CF65B12F70CD6A00766A6F /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 30CF65B02F70CD6A00766A6F /* FirebaseCore */; };
 		30CF65B42F70CDB100766A6F /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 30CF65B32F70CDB100766A6F /* GoogleSignIn */; };
@@ -14,6 +15,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		306661262F73745F0065F2F5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		308C95622F683C9C0045232C /* MyOwnFitnessAPP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyOwnFitnessAPP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -59,6 +61,7 @@
 				308C95642F683C9C0045232C /* MyOwnFitnessAPP */,
 				30AAA0A72F6B1C2C0009CABC /* Frameworks */,
 				308C95632F683C9C0045232C /* Products */,
+				306661262F73745F0065F2F5 /* README.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -149,6 +152,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				306661272F73745F0065F2F5 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -35,21 +35,29 @@ struct MealView: View {
                     }
                     
                     
-                    Section("Meals"){
-                        ForEach(meals){meal in
-                            HStack{
-                                Text(meal.name)
-                                    .font(.title)
-                                    .foregroundStyle(.primary)
-                                Text("\(meal.protein)g protein · \(meal.carbs)g carbs · \(meal.fat)g fat")
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
-                                
-                            }.onTapGesture{
-                                selectedMeal = meal
+                    ForEach(["Breakfast","Lunch","Dinner"], id: \.self){type in
+                        if !mealsFor(type).isEmpty{
+                            Section(type){
+                                ForEach(mealsFor(type)){meal in
+                                    
+                                    HStack{
+                                        Text(meal.name)
+                                            .font(.title)
+                                            .foregroundStyle(.primary)
+                                        Text("\(meal.protein)g protein · \(meal.carbs)g carbs · \(meal.fat)g fat")
+                                            .font(.caption)
+                                            .foregroundStyle(.secondary)
+                                        
+                                    }.onTapGesture{
+                                        selectedMeal = meal
+                                    }
+                                    
+                                }.onDelete{offsets in
+                                    deleteMeal(at: offsets, from: type)
+                                    
+                                }
                             }
-                            
-                        }.onDelete(perform: deleteMeal)
+                        }
                     }
                 }
             }
@@ -75,10 +83,15 @@ struct MealView: View {
             }
         
     }
-    func deleteMeal(at offsets: IndexSet){
+    func deleteMeal(at offsets: IndexSet, from type: String){
+        let filtered = mealsFor(type)
         for i in offsets{
-            context.delete(meals[i])
+            context.delete(filtered[i])
         }
+    }
+    
+    func mealsFor(_ type: String)->[Meal]{
+        meals.filter{$0.mealType == type}
     }
 }
 
