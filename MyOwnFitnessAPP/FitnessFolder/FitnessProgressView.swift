@@ -13,6 +13,7 @@ struct FitnessProgressView: View {
     @Environment(\.modelContext) var context
     @State private var showingFitness = false
     @State private var selectedUnit = "Kg"
+    @State private var selectedWeight: Bodyweight? = nil
     
     var body: some View {
         Group{
@@ -55,6 +56,8 @@ struct FitnessProgressView: View {
                                     .foregroundStyle(.secondary)
                             }
                             
+                        }.onTapGesture {
+                            selectedWeight = body
                         }
                         
                     }.onDelete(perform: deleteWeight)
@@ -72,6 +75,10 @@ struct FitnessProgressView: View {
             }
             .sheet(isPresented: $showingFitness){
                 FitnessView()
+            }
+            .sheet(item: $selectedWeight){item in
+                NavigationStack{
+                    EditFitnessView(bodyWeight: item)}
             }
     }
     func deleteWeight(at offsets: IndexSet){

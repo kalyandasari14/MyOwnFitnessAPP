@@ -12,6 +12,7 @@ struct MealView: View {
     @Query var meals : [Meal]
     @Environment(\.modelContext) var context
     @State private var showingMealView = false
+    @State private var selectedMeal: Meal? = nil
     
     var totalCalories: Int{
         meals.reduce(0){$0 + $1 .calories}
@@ -44,6 +45,8 @@ struct MealView: View {
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
                                 
+                            }.onTapGesture{
+                                selectedMeal = meal
                             }
                             
                         }.onDelete(perform: deleteMeal)
@@ -59,9 +62,16 @@ struct MealView: View {
                         Image(systemName: "plus")
                     }
                 }
+                
+                
             }
             .sheet(isPresented: $showingMealView){
                 MealDataView()
+            }
+            
+                .sheet(item: $selectedMeal){meal in
+                    NavigationStack{
+                        EditMealView(meal: meal)}
             }
         
     }
