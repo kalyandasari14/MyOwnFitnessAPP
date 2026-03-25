@@ -15,8 +15,7 @@ Firebase Auth — Google Sign In using OAuth 2.0
 USDA FoodData Central API — for searching food nutrition data
 MVVM Architecture — ViewModels with @Observable, feature-based folder structure
 
-What I Learned
-This was my biggest project as a self-taught iOS developer, and I picked up a lot:
+
 
 SwiftData over Core Data for data persistence — learned how to set up models, relationships (ExerciseData → Sets), and @Query for fetching data
 MVVM pattern — structuring code with clear separation between views, view models, and models. Organized everything into feature-based folders
