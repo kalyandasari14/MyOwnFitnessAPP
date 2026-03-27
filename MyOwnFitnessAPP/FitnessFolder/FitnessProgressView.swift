@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import Charts
 
 struct FitnessProgressView: View {
     @Query var bodyweight:[Bodyweight]
@@ -16,38 +17,43 @@ struct FitnessProgressView: View {
     @State private var selectedWeight: Bodyweight? = nil
     
     var body: some View {
-        Group{
-            if bodyweight.isEmpty{
+        VStack(spacing: 0) {
+            if bodyweight.isEmpty {
                 ContentUnavailableView("Add Your weight", systemImage: "figure.strengthtraining.traditional.circle.fill", description: Text("Well lets see your progress "))
-            }else{
-                List{
-                    
-                    Picker("Unit", selection: $selectedUnit){
+            } else {
+                Chart {
+                    ForEach(bodyweight) { body in
+                        LineMark(x: .value("Date", body.date ?? Date.now), y: .value("BodyWeight", body.bodyweight))
+                            .foregroundStyle(by: .value("Type", "BodyWeight"))
+                        LineMark(x: .value("Date", body.date ?? Date.now), y: .value("DesiredWeight", body.desiredWeight))
+                            .foregroundStyle(by: .value("Type", "DesiredWeight"))
+                    }
+                }
+                .frame(height: 200)
+                .padding()
+                
+                List {
+                    Picker("Unit", selection: $selectedUnit) {
                         Text("kg").tag("kg")
-                        Text ("lb").tag("lb")
-                    }.pickerStyle(.segmented)
+                        Text("lb").tag("lb")
+                    }
+                    .pickerStyle(.segmented)
                     
-                    
-                    
-                    
-                    ForEach(bodyweight){body in
-                        VStack{
-                            HStack{
+                    ForEach(bodyweight) { body in
+                        VStack {
+                            HStack {
                                 Text("Current").foregroundStyle(.secondary)
                                 Spacer()
-                                
                                 Text(formatWeight(body.bodyweight)).bold()
-                                
                             }
                             
-                            HStack{
+                            HStack {
                                 Text("Goal").foregroundStyle(.secondary)
                                 Spacer()
-                                
-                                Text(formatWeight(body.desiredWeight))  .foregroundStyle(
-                                    body.bodyweight <= body.desiredWeight ? .green : .red
-                                )
-                                
+                                Text(formatWeight(body.desiredWeight))
+                                    .foregroundStyle(
+                                        body.bodyweight <= body.desiredWeight ? .green : .red
+                                    )
                             }
                             
                             if let date = body.date {
@@ -55,31 +61,33 @@ struct FitnessProgressView: View {
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
                             }
-                            
-                        }.onTapGesture {
+                        }
+                        .onTapGesture {
                             selectedWeight = body
                         }
-                        
-                    }.onDelete(perform: deleteWeight)
                     }
-            }
-        }.navigationTitle("ProgressView")
-            .toolbar{
-                ToolbarItem(placement: .topBarTrailing){
-                    Button{
-                        showingFitness = true
-                    }label: {
-                        Image(systemName: "plus")
-                    }
+                    .onDelete(perform: deleteWeight)
                 }
             }
-            .sheet(isPresented: $showingFitness){
-                FitnessView()
+        }
+        .navigationTitle("ProgressView")
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    showingFitness = true
+                } label: {
+                    Image(systemName: "plus")
+                }
             }
-            .sheet(item: $selectedWeight){item in
-                NavigationStack{
-                    EditFitnessView(bodyWeight: item)}
+        }
+        .sheet(isPresented: $showingFitness) {
+            FitnessView()
+        }
+        .sheet(item: $selectedWeight) { item in
+            NavigationStack {
+                EditFitnessView(bodyWeight: item)
             }
+        }
     }
     func deleteWeight(at offsets: IndexSet){
         for i in offsets{

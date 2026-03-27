@@ -76,7 +76,7 @@ struct WorkOutViewData: View {
             
         }
         
-        let exercise = ExerciseData(workoutName: workoutName, sets: swiftDataSets)
+        let exercise = ExerciseData(workoutName: workoutName, sets: swiftDataSets, date: date)
         context.insert(exercise)
         dismiss()
     }

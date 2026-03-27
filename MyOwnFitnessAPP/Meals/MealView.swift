@@ -15,12 +15,16 @@ struct MealView: View {
     @State private var selectedMeal: Meal? = nil
     
     var totalCalories: Int{
-        meals.reduce(0){$0 + $1 .calories}
+        todaysMeals.reduce(0){$0 + $1 .calories}
+    }
+    
+    var todaysMeals: [Meal]{
+        meals.filter{Calendar.current.isDateInToday($0.date)}
     }
     var body: some View {
         
         Group{
-            if meals.isEmpty{
+            if todaysMeals.isEmpty{
                 ContentUnavailableView("NO Meals", systemImage: "carrot", description: Text("Chop Chop Hurry Up!, You cannot build muscles without eating 😄"))
             }else{
                 List{
@@ -30,10 +34,18 @@ struct MealView: View {
                                 .font(.headline)
                             Spacer()
                             Text("\(totalCalories) cal").font(.headline).foregroundStyle(totalCalories < 2000 ? .green : .red)
-                            
+                        }
+                        
+                        HStack{
+                            Text("Date")
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
+                            Spacer()
+                            Text(todaysMeals.first!.date, style: .date)
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
                         }
                     }
-                    
                     
                     ForEach(["Breakfast","Lunch","Dinner"], id: \.self){type in
                         if !mealsFor(type).isEmpty{
@@ -91,7 +103,7 @@ struct MealView: View {
     }
     
     func mealsFor(_ type: String)->[Meal]{
-        meals.filter{$0.mealType == type}
+        todaysMeals.filter{$0.mealType == type}
     }
 }
 

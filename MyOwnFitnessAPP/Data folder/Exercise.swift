@@ -11,13 +11,15 @@ import SwiftData
 @Model
 class ExerciseData: Hashable{
     var workoutName: String
+    var date: Date
     
     @Relationship(deleteRule: .cascade)
     var sets : [Sets]
     
-    init(workoutName: String, sets: [Sets]) {
+    init(workoutName: String, sets: [Sets], date: Date = Date()) {
         self.workoutName = workoutName
         self.sets = sets
+        self.date = date
     }
 }
 
