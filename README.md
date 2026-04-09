@@ -134,6 +134,7 @@ The app uses a tab-based navigation with four main sections:
 
 ## Future Enhancements
 
+
 - [ ] Charts and graphs for progress visualization
 - [ ] Workout routines and templates
 - [ ] Custom meal creation
